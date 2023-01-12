@@ -15,6 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <p><a href="{{ url('/tasks') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Tasks</a></p>
                 </div>
             </div>
         </div>

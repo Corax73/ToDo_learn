@@ -23,3 +23,9 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/tasks', [TaskController::class, 'renderTasks']);
+
+Route::post('/saveTask', [TaskController::class, 'saveTask'])->name('saveTask');
+
+Route::post('/tasks', [TaskController::class, 'renderTasks']);
+
+Route::post('deleteTask/{id}', [TaskController::class, 'deleteTask'])->name('deleteTask');
