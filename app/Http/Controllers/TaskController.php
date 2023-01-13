@@ -29,8 +29,8 @@ class TaskController extends Controller
     }
 
     function deleteTask($id) {
-        $listItem = Task::find($id);
-        $listItem->delete();
+        $taskItem = Task::find($id);
+        $taskItem->delete();
 
         return redirect('/tasks');
     }
