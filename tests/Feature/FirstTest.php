@@ -14,16 +14,20 @@ class FirstTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-    public function testMethod()
+    
+    public function testMethodRoute()
     {
         $response = $this->get('/tasks');
         $response->assertStatus(200);
+    }
+    public function testMethodSession()
+    {
+        $response = $this->get('/tasks');
         $response->ddSession();
+    }
+    public function testMethodDB()
+    {
+        $this->assertDatabaseHas('tasks', ['user_id'=> '1']);
+        $this->assertDatabaseCount('users', 2);
     }
 }

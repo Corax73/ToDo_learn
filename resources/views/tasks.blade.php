@@ -23,7 +23,7 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                     </form>
-    @endif
+    
         <h1>ToDo list</h1>
                 <table border="5px" align="center">
                      <thead>
@@ -62,6 +62,9 @@
                 <input type="text" name="Task"> </br>
                 <button type="submit">Save task</button>
             </form>
+            @else
+            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Please log in</a>
+            @endif
             <p><a href="{{ url('/home') }}" class="text-white underline">Home</a></p>
 
             

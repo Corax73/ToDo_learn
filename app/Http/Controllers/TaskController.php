@@ -12,10 +12,10 @@ class TaskController extends Controller
 {
     function renderTasks() {
         $id = Auth::id();
-        $tasks = Task::select('*')->where('user_id', '=', $id)->get();
+        $tasks = Task::select('*')->where('user_id', '=', $id);
 		
 		return view('tasks', [
-		'Task'=>$tasks
+		'Task'=>$tasks->paginate(10)
 		]);
     }
   
