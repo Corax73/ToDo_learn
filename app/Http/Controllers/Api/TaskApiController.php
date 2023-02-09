@@ -13,12 +13,18 @@ class TaskApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function all($token)
     {
-        $tasks = Task::all()->sortBy('created_at');
-        return response()->json([
-        'tasks' => $tasks
-    ]);
+        if ($token == 1) {
+            $tasks = Task::all()->sortBy('created_at');
+            return response()->json([
+                'tasks' => $tasks
+            ]);
+        } else {
+            return response()->json([
+                'no_auth' => 'wrong'
+            ]);
+        }
     }
 
     /**
