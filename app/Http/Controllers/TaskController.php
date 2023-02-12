@@ -7,6 +7,9 @@ use App\Models\Task;
 use App\Models\User;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactForm;
+use App\Http\Requests\ContactFormRequest;
 
 class TaskController extends Controller
 {

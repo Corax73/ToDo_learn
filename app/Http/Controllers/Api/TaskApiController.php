@@ -26,6 +26,19 @@ class TaskApiController extends Controller
             ]);
         }
     }
+    public function oneUser($token, $id)
+    {
+        if ($token == 1) {
+                $tasks = Task::all()->where('user_id', $id)->sortBy('created_at');
+                return response()->json([
+                    'tasks' => $tasks
+                ]);
+            } else {
+                return response()->json([
+                    'no_auth' => 'wrong'
+                ]);
+            }  
+    }
 
     /**
      * Store a newly created resource in storage.
