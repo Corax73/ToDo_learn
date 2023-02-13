@@ -20,6 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //Route::apiResource('tasks', TaskApiController::class);
-Route::get('/tasks/{token}', [TaskApiController::class, 'all']);
 
-Route::get('/tasks/{token}/user/{id}', [TaskApiController::class, 'oneUser']);
+Route::controller(TaskApiController::class)
+->group(function () {
+    Route::get('/tasks/{token}', 'all');
+    Route::get('/tasks/{token}/user/{id}', 'oneUser');
+    Route::get('/nameandemail/{token}/user/{id}', 'getNameAndEmailUser');
+});

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\User;
 
 class TaskApiController extends Controller
 {
@@ -32,6 +33,21 @@ class TaskApiController extends Controller
                 $tasks = Task::all()->where('user_id', $id)->sortBy('created_at');
                 return response()->json([
                     'tasks' => $tasks
+                ]);
+            } else {
+                return response()->json([
+                    'no_auth' => 'wrong'
+                ]);
+            }  
+    }
+
+    public function getNameAndEmailUser($token, $id)
+    {
+        if ($token == 1) {
+            $user = User::find($id);
+            $NameAndEmail = $user->name_email;
+                return response()->json([
+                    'NameAndEmail' => $NameAndEmail
                 ]);
             } else {
                 return response()->json([
