@@ -53,7 +53,21 @@ class TaskApiController extends Controller
                 return response()->json([
                     'no_auth' => 'wrong'
                 ]);
-            }  
+            }
+    }
+    public function getNameUpUser($token, $id)
+    {
+        if ($token == 1) {
+            $user = User::find($id);
+            $NameUp = $user->name_up;
+                return response()->json([
+                    'NameUp' => $NameUp
+                ]);
+            } else {
+                return response()->json([
+                    'no_auth' => 'wrong'
+                ]);
+            }
     }
 
     /**

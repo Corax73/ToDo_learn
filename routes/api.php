@@ -26,4 +26,5 @@ Route::controller(TaskApiController::class)
     Route::get('/tasks/{token}', 'all');
     Route::get('/tasks/{token}/user/{id}', 'oneUser');
     Route::get('/nameandemail/{token}/user/{id}', 'getNameAndEmailUser');
+    Route::get('/nameup/{token}/user/{id}', 'getNameUpUser');
 });
