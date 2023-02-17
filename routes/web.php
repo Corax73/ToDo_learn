@@ -32,3 +32,4 @@ Route::controller(TaskController::class)
 
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::post('/news', [NewsController::class, 'store'])->name('news.store');
+Route::post('destroy/{id}', [NewsController::class, 'destroy'])->name('destroy');

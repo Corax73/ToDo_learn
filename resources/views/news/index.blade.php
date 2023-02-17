@@ -13,9 +13,13 @@
 <div class="container">
     @foreach($news as $item)
         <div class="col-8">
+        <form method="post" action="{{ route('destroy', $item->id) }}" accept-charset="UTF-8">
+        {{ csrf_field()  }}
             <h2>{{ $item->name }}</h2>
             <h3>{{ $item->body }}</h3>
             <p><img src="{{ Storage::url('/mini/' . 'mini'. $item->image) }}" alt=""></p>
+            <button type="submit">Удалить</button>
+        </form>
         </div>
     @endforeach
 </div>
@@ -23,7 +27,7 @@
     <div class="col-8">
         <h1>Добавить новость</h1>
         <form method="post" action="{{ route('news.store') }}" enctype="multipart/form-data">
-            @csrf
+        {{ csrf_field()  }}
             <div class="form-group">
                 <label for="name">Название новости</label>
                 <input type="text" class="form-control" id="name" name="name" required>

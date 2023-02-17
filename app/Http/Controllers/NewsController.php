@@ -6,6 +6,8 @@ use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
@@ -35,19 +37,26 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Faker $faker)
     {
         $data = $request->all();
 
         $filename = $data['image']->getClientOriginalName();
+        $uniquePrefix = $faker->swiftBicNumber;
+        $uniqueFilename = $uniquePrefix . $filename;
+        $filename = $uniqueFilename;
 
         
-        $data['image']->move(Storage::path('/public'),$filename);
+        $data['image']->move(Storage::path('/public'), $filename);
 
         
-        $resizeImg = Image::make(Storage::path('/public/').$filename);
-        $resizeImg->fit(300, 300);
-        $resizeImg->save(Storage::path('/public/mini/').'mini'.$filename);
+        $resizeImg = Image::make(Storage::path('/public/') . $uniqueFilename);
+        $resizeImg->fit(300, 300, function($img) {
+            $img->aspectRatio();
+            $img->upsize();
+        })->blur(50);;
+        
+        $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $uniqueFilename);
 
         
         $data['image'] = $filename;
@@ -96,8 +105,11 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy(News $news)
+    public function destroy($id)
     {
-        //
+        $NewsId = News::find($id);
+        $NewsId->delete();
+
+        return redirect('/news');
     }
 }
