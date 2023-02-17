@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\NewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,6 @@ Route::controller(TaskController::class)
     Route::post('/saveTask', 'saveTask')->name('saveTask');
     Route::post('deleteTask/{id}', 'deleteTask')->name('deleteTask');
 });
+
+Route::get('/news', [NewsController::class, 'index'])->name('news');
+Route::post('/news', [NewsController::class, 'store'])->name('news.store');
