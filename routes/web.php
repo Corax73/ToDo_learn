@@ -30,6 +30,10 @@ Route::controller(TaskController::class)
     Route::post('deleteTask/{id}', 'deleteTask')->name('deleteTask');
 });
 
-Route::get('/news', [NewsController::class, 'index'])->name('news');
-Route::post('/news', [NewsController::class, 'store'])->name('news.store');
-Route::post('destroy/{id}', [NewsController::class, 'destroy'])->name('destroy');
+
+Route::controller(NewsController::class)
+->group(function() {
+    Route::get('/news', 'index')->name('news');
+    Route::post('/news', 'store')->name('news.store');
+    Route::get('destroy/{id}', 'destroy')->name('destroy');
+});

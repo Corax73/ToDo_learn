@@ -50,13 +50,13 @@ class NewsController extends Controller
         $data['image']->move(Storage::path('/public'), $filename);
 
         
-        $resizeImg = Image::make(Storage::path('/public/') . $uniqueFilename);
+        $resizeImg = Image::make(Storage::path('/public/') . $filename);
         $resizeImg->fit(300, 300, function($img) {
             $img->aspectRatio();
             $img->upsize();
         })->blur(50);;
         
-        $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $uniqueFilename);
+        $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $filename);
 
         
         $data['image'] = $filename;
@@ -105,10 +105,22 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $NewsId = News::find($id);
-        $NewsId->delete();
+        switch ($request->input('action')) {
+            case 'delete':
+                $NewsId = News::find($id);
+                $filenameForDel = $NewsId->image;
+                Storage::delete('/public/' . $filenameForDel);
+                Storage::delete('/public/mini/' . 'mini' . $filenameForDel);
+                $NewsId->delete();
+                break;
+            case 'download':
+                $NewsId = News::find($id);
+                $filenameForDown = $NewsId->image;
+                return Storage::download('/public/' . $filenameForDown);
+                break;
+        }
 
         return redirect('/news');
     }

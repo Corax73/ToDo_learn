@@ -13,12 +13,13 @@
 <div class="container">
     @foreach($news as $item)
         <div class="col-8">
-        <form method="post" action="{{ route('destroy', $item->id) }}" accept-charset="UTF-8">
+        <form method="get" action="{{ route('destroy', $item->id) }}" accept-charset="UTF-8">
         {{ csrf_field()  }}
             <h2>{{ $item->name }}</h2>
             <h3>{{ $item->body }}</h3>
             <p><img src="{{ Storage::url('/mini/' . 'mini'. $item->image) }}" alt=""></p>
-            <button type="submit">Удалить</button>
+            <button type="submit" name="action" value="delete">Удалить</button>
+            <button type="submit" name="action" value="download">Скачать</button>
         </form>
         </div>
     @endforeach
