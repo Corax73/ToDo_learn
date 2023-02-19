@@ -25,6 +25,7 @@ Route::controller(TaskApiController::class)
 ->group(function () {
     Route::get('/tasks/{token}', 'all');
     Route::get('/tasks/{token}/user/{id}', 'oneUser');
+    Route::get('/tasksByScope/{token}/user/{id}', 'oneByScope');
     Route::get('/nameandemail/{token}/user/{id}', 'getNameAndEmailUser');
     Route::get('/nameup/{token}/user/{id}', 'getNameUpUser');
 });

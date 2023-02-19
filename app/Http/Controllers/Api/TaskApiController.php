@@ -70,6 +70,20 @@ class TaskApiController extends Controller
             }
     }
 
+    public function oneByScope($token, $id)
+    {
+        if ($token == 1) {
+                $taskByUserId = Task::byuserid($id)->get();
+                return response()->json([
+                    'taskByUserId' => $taskByUserId
+                ]);
+            } else {
+                return response()->json([
+                    'no_auth' => 'wrong'
+                ]);
+            }  
+    }
+
     /**
      * Store a newly created resource in storage.
      *
