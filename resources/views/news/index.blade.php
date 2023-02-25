@@ -31,15 +31,24 @@
         {{ csrf_field()  }}
             <div class="form-group">
                 <label for="name">Название новости</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <input type="text" class="form-control" id="name" name="name" >
+                @if ($errors->has('name'))
+                <span class="text-danger">{{ $errors->first('name') }}</span>
+                @endif
             </div>
             <div class="form-group">
                 <label for="body">Содержание</label>
-                <textarea class="form-control" id="body" rows="3" name="body" required></textarea>
+                <textarea class="form-control" id="body" rows="3" name="body"></textarea>
+                @if ($errors->has('body'))
+                <span class="text-danger">{{ $errors->first('body') }}</span>
+                @endif
             </div>
             <div class="form-group">
                 <label for="image">Картинка для новости</label>
-                <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+                <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
+                @if ($errors->has('image'))
+                <span class="text-danger">{{ $errors->first('image') }}</span>
+                @endif
             </div>
             <button type="submit" class="btn btn-primary">Добавить</button>
         </form>

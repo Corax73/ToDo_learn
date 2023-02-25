@@ -39,15 +39,25 @@ class NewsController extends Controller
      */
     public function store(Request $request, Faker $faker)
     {
-        $data = $request->all();
-
-        $filename = $data['image']->getClientOriginalName();
+        $validatedData = $request -> validate( [
+            'name' => 'required|unique:news|max:255',
+            'body' => 'required',
+            'image' => 'required'
+        ], 
+        [
+            'name.required' => 'Name is unique',
+            'body.required' => 'Body is required',
+            'image.required' => 'Image is required'
+        ]
+    );
+    
+        $filename = $validatedData['image']->getClientOriginalName();
         $uniquePrefix = $faker->swiftBicNumber;
         $uniqueFilename = $uniquePrefix . $filename;
         $filename = $uniqueFilename;
 
         
-        $data['image']->move(Storage::path('/public'), $filename);
+        $validatedData['image']->move(Storage::path('/public'), $filename);
 
         
         $resizeImg = Image::make(Storage::path('/public/') . $filename);
@@ -59,8 +69,8 @@ class NewsController extends Controller
         $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $filename);
 
         
-        $data['image'] = $filename;
-        News::create($data);
+        $validatedData['image'] = $filename;
+        News::create($validatedData);
 
         return redirect()->route('news');
     }
