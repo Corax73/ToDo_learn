@@ -34,6 +34,7 @@ Route::controller(TaskController::class)
 Route::controller(NewsController::class)
 ->group(function() {
     Route::get('/news', 'index')->name('news');
+    Route::get('/news/{id}', 'show')->name('news.show');
     Route::post('/news', 'store')->name('news.store');
-    Route::get('destroy/{id}', 'destroy')->name('destroy');
+    Route::delete('destroy/{id}', 'destroy')->name('destroy');
 });

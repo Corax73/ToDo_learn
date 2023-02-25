@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
@@ -45,12 +44,13 @@ class NewsController extends Controller
             'image' => 'required'
         ], 
         [
-            'name.required' => 'Name is unique',
+            'name.unique' => 'Name is not unique',
+            'name.required' => 'Name is required',
             'body.required' => 'Body is required',
             'image.required' => 'Image is required'
         ]
     );
-    
+
         $filename = $validatedData['image']->getClientOriginalName();
         $uniquePrefix = $faker->swiftBicNumber;
         $uniqueFilename = $uniquePrefix . $filename;
@@ -81,9 +81,11 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function show(News $news)
+    public function show(Request $request)
     {
-        //
+        $news = News::find($request -> id);
+        
+        return view('news.show',['news' => $news]);
     }
 
     /**
