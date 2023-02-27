@@ -26,8 +26,8 @@ class TaskController extends Controller
 
         $name = $request -> validate( [
             'name' => 'required|unique:tasks|max:255'
-        ]
-    );
+        ]);
+        $name = $request -> name;
         $Task = new Task;
         $Task -> saveTask($name) -> save();
 

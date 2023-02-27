@@ -19,7 +19,7 @@ class Task extends Model
     {
         $this -> name = $taskText;
         $this -> user_id = Auth::id();
-        //$Task->save();
+        
         return $this;
     }
 }
