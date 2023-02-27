@@ -10,20 +10,26 @@ use DB;
 
 class TaskController extends Controller
 {
-    function renderTasks() {
+    function index() {
+        
         $id = Auth::id();
-        $tasks = Task::select('*')->where('user_id', '=', $id);
-		
-		return view('tasks', [
-		'Task'=>$tasks->paginate(10)
-		]);
+
+        $userTasks = User::find($id);
+
+        return view('tasks', 
+        [
+            'Task' => $userTasks -> index-> sortBy('created_at')
+        ]);
     }
   
     function saveTask(Request $request) {
+
+        $name = $request -> validate( [
+            'name' => 'required|unique:tasks|max:255'
+        ]
+    );
         $Task = new Task;
-        $Task->name = $request->Task;
-        $Task->user_id = Auth::id();
-        $Task->save();
+        $Task -> saveTask($name) -> save();
 
         return redirect('/tasks');
     }

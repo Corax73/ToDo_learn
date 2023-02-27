@@ -25,7 +25,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::controller(TaskController::class)
 ->group(function () {
-    Route::get('/tasks', 'renderTasks');
+    Route::get('/tasks', 'index');
     Route::post('/saveTask', 'saveTask')->name('saveTask');
     Route::post('deleteTask/{id}', 'deleteTask')->name('deleteTask');
 });

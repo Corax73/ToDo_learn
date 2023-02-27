@@ -57,14 +57,18 @@
                 </table>
                 <form method="post" action="{{ route('saveTask') }}" accept-charset="UTF-8">
                 {{ csrf_field()  }}
-
+                <div class="form-group">
                 <label for="Task">New task</label> </br>
-                <input type="text" name="Task"> </br>
+                <input type="text" name="name"> </br>
+                @if ($errors->has('name'))
+                <span class="text-danger">{{ $errors->first('name') }}</span>
+                @endif
+                </div>
                 <button type="submit">Save task</button>
             </form>
             @else
             <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Please log in</a>
-            @endif
+    @endif
             <p><a href="{{ url('/home') }}" class="text-white underline">Home</a></p>
 
             
