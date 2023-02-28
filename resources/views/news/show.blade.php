@@ -13,7 +13,7 @@
 <div class="container">
         <div class="col-8">
         <form method="POST" action="{{ route('news.destroy', $news -> id) }}" accept-charset="UTF-8">
-        {{ csrf_field()  }}
+        @csrf
         @method ('delete')
             <h2>{{ $news->name }}</h2>
             <h3>{{ $news->body }}</h3>
@@ -21,8 +21,9 @@
             <button type="submit" name="action" value="delete" class="btn btn-danger">Удалить</button>
             <button type="submit" name="action" value="download">Скачать</button>
         </form>
+        <a href="{{ route('news.edit', $news -> id) }}">Edit this news</a>
         </div>
-        <a href="{{ route('news') }}">To the news</a>
+        <a href="{{ route('news.index') }}">To the news</a>
 </div>
 </body>
 </html>

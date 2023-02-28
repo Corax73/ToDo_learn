@@ -94,9 +94,11 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function edit(News $news)
+    public function edit(Request $request)
     {
-        //
+        $news = News::find($request -> id);
+        
+        return view('news.edit',['news' => $news]);
     }
 
     /**
@@ -106,9 +108,45 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(Request $request, Faker $faker)
     {
-        //
+        $news = News::find($request -> id);
+
+        $validatedData = $request -> validate( [
+            'name' => 'required|unique:news|max:255',
+            'body' => 'required',
+            'image' => 'required'
+        ], 
+        [
+            'name.unique' => 'Name is not unique',
+            'name.required' => 'Name is required',
+            'body.required' => 'Body is required',
+            'image.required' => 'Image is required'
+        ]
+    );
+
+        $filename = $validatedData['image']->getClientOriginalName();
+        $uniquePrefix = $faker->swiftBicNumber;
+        $uniqueFilename = $uniquePrefix . $filename;
+        $filename = $uniqueFilename;
+
+        
+        $validatedData['image']->move(Storage::path('/public'), $filename);
+
+        
+        $resizeImg = Image::make(Storage::path('/public/') . $filename);
+        $resizeImg->fit(300, 300, function($img) {
+            $img->aspectRatio();
+            $img->upsize();
+        })->blur(50);;
+        
+        $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $filename);
+
+        
+        $validatedData['image'] = $filename;
+        $news -> update($validatedData);
+        
+        return view('news.show',['news' => $news]);
     }
 
     /**

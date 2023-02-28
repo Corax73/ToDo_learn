@@ -25,16 +25,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::controller(TaskController::class)
 ->group(function () {
-    Route::get('/tasks', 'index');
-    Route::post('/saveTask', 'saveTask') -> name('saveTask');
+    Route::get('/tasks', 'index') -> name('tasks.index');
+    Route::post('/saveTask', 'saveTask') -> name('tasks.save');
     Route::post('destroy/{id}', 'destroy') -> name('tasks.destroy');
 });
 
 
 Route::controller(NewsController::class)
 ->group(function() {
-    Route::get('/news', 'index') -> name('news');
+    Route::get('/news', 'index') -> name('news.index');
     Route::get('/news/{id}', 'show') -> name('news.show');
     Route::post('/news', 'store') -> name('news.store');
     Route::delete('destroy/{id}', 'destroy') -> name('news.destroy');
+    Route::get('/news/{id}/edit', 'edit') -> name('news.edit');
+    Route::patch('/news/{id}', 'update') -> name('news.update');
 });

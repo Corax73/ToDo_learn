@@ -35,8 +35,7 @@
                            @if($taskItem)
                         <tr>
                         <form method="POST" action="{{ route('tasks.destroy', $taskItem -> id) }}" accept-charset="UTF-8">
-                                {{ csrf_field()  }}
-                               
+                        @csrf
                             <td class="table-text">
                                 <p>Task: {{ $taskItem -> name }}</p>
                             </td>
@@ -52,8 +51,8 @@
                         @endforeach
                     </tbody>
                 </table>
-                <form method="POST" action="{{ route('saveTask') }}" accept-charset="UTF-8">
-                {{ csrf_field()  }}
+                <form method="POST" action="{{ route('tasks.save') }}" accept-charset="UTF-8">
+                @csrf
                 <div class="form-group">
                 <label for="Task">New task</label> </br>
                 <input type="text" name="name"> </br>
