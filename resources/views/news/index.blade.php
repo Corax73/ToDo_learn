@@ -14,12 +14,8 @@
     @foreach($news as $item)
         <div class="col-8">
         <a href="{{ route('news.show', $item -> id) }}">{{ $item->name }}</a>
-        <form method="get" action="{{ route('destroy', $item->id) }}" accept-charset="UTF-8">
-        {{ csrf_field()  }}
-            <h2>{{ $item->name }}</h2>
-            <h3>{{ substr($item->body, 0, 5) . '...' }}</h3>
-            <p><img src="{{ Storage::url('/mini/' . 'mini'. $item->image) }}" alt=""></p>
-        </form>
+        <h3>{{ substr($item->body, 0, 5) . '...' }}</h3>
+        <p><img src="{{ Storage::url('/mini/' . 'mini'. $item->image) }}" alt=""></p>
         </div>
     @endforeach
 </div>

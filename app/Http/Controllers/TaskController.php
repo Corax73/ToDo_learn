@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\User;
 use Auth;
-use DB;
 
 class TaskController extends Controller
 {
@@ -34,7 +33,7 @@ class TaskController extends Controller
         return redirect('/tasks');
     }
 
-    function deleteTask($id) {
+    function destroy($id) {
         $taskItem = Task::find($id);
         $taskItem->delete();
 

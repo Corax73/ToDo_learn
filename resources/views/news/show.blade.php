@@ -12,7 +12,7 @@
 <p align="center"><a href="{{ url('/home') }}">Home</a></p>
 <div class="container">
         <div class="col-8">
-        <form action="{{ route('destroy', $news -> id) }}" accept-charset="UTF-8">
+        <form method="POST" action="{{ route('news.destroy', $news -> id) }}" accept-charset="UTF-8">
         {{ csrf_field()  }}
         @method ('delete')
             <h2>{{ $news->name }}</h2>

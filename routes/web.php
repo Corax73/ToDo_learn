@@ -26,15 +26,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::controller(TaskController::class)
 ->group(function () {
     Route::get('/tasks', 'index');
-    Route::post('/saveTask', 'saveTask')->name('saveTask');
-    Route::post('deleteTask/{id}', 'deleteTask')->name('deleteTask');
+    Route::post('/saveTask', 'saveTask') -> name('saveTask');
+    Route::post('destroy/{id}', 'destroy') -> name('tasks.destroy');
 });
 
 
 Route::controller(NewsController::class)
 ->group(function() {
-    Route::get('/news', 'index')->name('news');
-    Route::get('/news/{id}', 'show')->name('news.show');
-    Route::post('/news', 'store')->name('news.store');
-    Route::delete('destroy/{id}', 'destroy')->name('destroy');
+    Route::get('/news', 'index') -> name('news');
+    Route::get('/news/{id}', 'show') -> name('news.show');
+    Route::post('/news', 'store') -> name('news.store');
+    Route::delete('destroy/{id}', 'destroy') -> name('news.destroy');
 });

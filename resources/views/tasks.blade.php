@@ -31,31 +31,28 @@
                         <th>Action</th>
                     </thead>
                     <tbody>
-                       @foreach($Task as $key=>$taskItem)
+                       @foreach($Task as $key => $taskItem)
                            @if($taskItem)
                         <tr>
-                                <!-- Task Name -->
-                            <td class="table-text">
-                            <form method="post" action="{{ route('deleteTask', $taskItem->id) }}" accept-charset="UTF-8">
+                        <form method="POST" action="{{ route('tasks.destroy', $taskItem -> id) }}" accept-charset="UTF-8">
                                 {{ csrf_field()  }}
-                                <p>Task: {{ $taskItem->name }}</p>
-                                
-                                
-                    
-                            @endif
+                               
+                            <td class="table-text">
+                                <p>Task: {{ $taskItem -> name }}</p>
                             </td>
                             <td>
-                            <p>Created_at: {{ $taskItem->created_at }}</p>
+                                <p>Created_at: {{ $taskItem -> created_at }}</p>
                             </td>
                             <td>
                                 <button type="submit">Delete</button>
                             </td>
                             </form>
                         </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
-                <form method="post" action="{{ route('saveTask') }}" accept-charset="UTF-8">
+                <form method="POST" action="{{ route('saveTask') }}" accept-charset="UTF-8">
                 {{ csrf_field()  }}
                 <div class="form-group">
                 <label for="Task">New task</label> </br>
