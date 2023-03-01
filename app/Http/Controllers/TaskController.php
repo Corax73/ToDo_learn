@@ -17,7 +17,7 @@ class TaskController extends Controller
 
         return view('tasks', 
         [
-            'Task' => $userTasks -> index-> sortBy('created_at')
+            'Task' => $userTasks -> index -> sortBy('created_at')
         ]);
     }
   

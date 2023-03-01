@@ -17,7 +17,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        return view('news.index',['news' => News::all()]);
+        return view('news.index', ['news' => News::all() -> sortByDesc('created_at')]);
     }
 
     /**
@@ -51,20 +51,20 @@ class NewsController extends Controller
         ]
     );
 
-        $filename = $validatedData['image']->getClientOriginalName();
-        $uniquePrefix = $faker->swiftBicNumber;
+        $filename = $validatedData['image'] -> getClientOriginalName();
+        $uniquePrefix = $faker -> swiftBicNumber;
         $uniqueFilename = $uniquePrefix . $filename;
         $filename = $uniqueFilename;
 
         
-        $validatedData['image']->move(Storage::path('/public'), $filename);
+        $validatedData['image'] -> move(Storage::path('/public'), $filename);
 
         
         $resizeImg = Image::make(Storage::path('/public/') . $filename);
-        $resizeImg->fit(300, 300, function($img) {
-            $img->aspectRatio();
-            $img->upsize();
-        })->blur(50);;
+        $resizeImg -> fit(300, 300, function($img) {
+            $img -> aspectRatio();
+            $img -> upsize();
+        }) -> blur(50);;
         
         $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $filename);
 
@@ -72,7 +72,7 @@ class NewsController extends Controller
         $validatedData['image'] = $filename;
         News::create($validatedData);
 
-        return redirect()->route('news');
+        return redirect() -> route('news.index');
     }
 
     /**
@@ -85,7 +85,7 @@ class NewsController extends Controller
     {
         $news = News::find($request -> id);
         
-        return view('news.show',['news' => $news]);
+        return view('news.show', ['news' => $news]);
     }
 
     /**
@@ -98,7 +98,7 @@ class NewsController extends Controller
     {
         $news = News::find($request -> id);
         
-        return view('news.edit',['news' => $news]);
+        return view('news.edit', ['news' => $news]);
     }
 
     /**
@@ -112,41 +112,56 @@ class NewsController extends Controller
     {
         $news = News::find($request -> id);
 
-        $validatedData = $request -> validate( [
-            'name' => 'required|unique:news|max:255',
-            'body' => 'required',
-            'image' => 'required'
-        ], 
-        [
-            'name.unique' => 'Name is not unique',
-            'name.required' => 'Name is required',
-            'body.required' => 'Body is required',
-            'image.required' => 'Image is required'
-        ]
-    );
+        if ($request -> image) {
 
-        $filename = $validatedData['image']->getClientOriginalName();
-        $uniquePrefix = $faker->swiftBicNumber;
-        $uniqueFilename = $uniquePrefix . $filename;
-        $filename = $uniqueFilename;
+            $validatedData = $request -> validate( [
+                'name' => 'required|unique:news|max:255',
+                'body' => 'required',
+                'image' => 'required'
+            ], 
+            [
+                'name.unique' => 'Name is not unique',
+                'name.required' => 'Name is required',
+                'body.required' => 'Body is required',
+                'image.required' => 'Image is required'
+            ]
+        );
+            $filenameForDel = $news -> image;
+            Storage::delete('/public/' . $filenameForDel);
+            Storage::delete('/public/mini/' . 'mini' . $filenameForDel);
+            
+            $filename = $validatedData['image'] -> getClientOriginalName();
+            $uniquePrefix = $faker->swiftBicNumber;
+            $uniqueFilename = $uniquePrefix . $filename;
+            $filename = $uniqueFilename;
+            $validatedData['image']->move(Storage::path('/public'), $filename);
+            
+            $resizeImg = Image::make(Storage::path('/public/') . $filename);
+            $resizeImg -> fit(300, 300, function($img) {
+                $img -> aspectRatio();
+                $img -> upsize();
+            }) -> blur(50);
 
-        
-        $validatedData['image']->move(Storage::path('/public'), $filename);
+            $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $filename);
+            
+            $validatedData['image'] = $filename;
+        } else {
+            
+            $validatedData = $request -> validate( [
+                'name' => 'required|unique:news|max:255',
+                'body' => 'required'
+            ], 
+            [
+                'name.unique' => 'Name is not unique',
+                'name.required' => 'Name is required',
+                'body.required' => 'Body is required'
+            ]
+        );
+        }
 
-        
-        $resizeImg = Image::make(Storage::path('/public/') . $filename);
-        $resizeImg->fit(300, 300, function($img) {
-            $img->aspectRatio();
-            $img->upsize();
-        })->blur(50);;
-        
-        $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $filename);
-
-        
-        $validatedData['image'] = $filename;
         $news -> update($validatedData);
         
-        return view('news.show',['news' => $news]);
+        return view('news.show', ['news' => $news]);
     }
 
     /**
@@ -163,11 +178,11 @@ class NewsController extends Controller
                 $filenameForDel = $NewsId->image;
                 Storage::delete('/public/' . $filenameForDel);
                 Storage::delete('/public/mini/' . 'mini' . $filenameForDel);
-                $NewsId->delete();
+                $NewsId -> delete();
                 break;
             case 'download':
                 $NewsId = News::find($id);
-                $filenameForDown = $NewsId->image;
+                $filenameForDown = $NewsId -> image;
                 return Storage::download('/public/' . $filenameForDown);
                 break;
         }

@@ -33,6 +33,7 @@
             <div class="form-group">
                 <label for="image">Картинка для новости:</label>
                 {{ $news -> image }}
+                <p><img src="{{ Storage::url($news->image) }}" alt="" width="20%"></p>
                 <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
                 @if ($errors->has('image'))
                 <span class="text-danger">{{ $errors->first('image') }}</span>
