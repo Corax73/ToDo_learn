@@ -17,7 +17,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        return view('news.index', ['news' => News::all() -> sortByDesc('created_at')]);
+        return view('news.index', ['news' => News::all() -> sortByDesc('updated_at')]);
     }
 
     /**
@@ -50,25 +50,8 @@ class NewsController extends Controller
             'image.required' => 'Image is required'
         ]
     );
+        $filename = image_load_and_mini ($validatedData, $faker);
 
-        $filename = $validatedData['image'] -> getClientOriginalName();
-        $uniquePrefix = $faker -> swiftBicNumber;
-        $uniqueFilename = $uniquePrefix . $filename;
-        $filename = $uniqueFilename;
-
-        
-        $validatedData['image'] -> move(Storage::path('/public'), $filename);
-
-        
-        $resizeImg = Image::make(Storage::path('/public/') . $filename);
-        $resizeImg -> fit(300, 300, function($img) {
-            $img -> aspectRatio();
-            $img -> upsize();
-        }) -> blur(50);;
-        
-        $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $filename);
-
-        
         $validatedData['image'] = $filename;
         News::create($validatedData);
 
@@ -126,25 +109,11 @@ class NewsController extends Controller
                 'image.required' => 'Image is required'
             ]
         );
-            $filenameForDel = $news -> image;
-            Storage::delete('/public/' . $filenameForDel);
-            Storage::delete('/public/mini/' . 'mini' . $filenameForDel);
             
-            $filename = $validatedData['image'] -> getClientOriginalName();
-            $uniquePrefix = $faker->swiftBicNumber;
-            $uniqueFilename = $uniquePrefix . $filename;
-            $filename = $uniqueFilename;
-            $validatedData['image']->move(Storage::path('/public'), $filename);
-            
-            $resizeImg = Image::make(Storage::path('/public/') . $filename);
-            $resizeImg -> fit(300, 300, function($img) {
-                $img -> aspectRatio();
-                $img -> upsize();
-            }) -> blur(50);
-
-            $resizeImg->save(Storage::path('/public/mini/') . 'mini' . $filename);
+            $filename = image_update_and_mini ($news, $validatedData, $faker);
             
             $validatedData['image'] = $filename;
+
         } else {
             
             $validatedData = $request -> validate( [
