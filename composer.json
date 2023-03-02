@@ -25,7 +25,9 @@
     "autoload": {
         "files": [
             "app/Helpers/HelperImgLoader.php",
-            "app/Helpers/HelperImgUdater.php"
+            "app/Helpers/HelperImgUpdater.php",
+            "app/Helpers/HelperImgDestroyer.php",
+            "app/Helpers/HelperImgDownloader.php"
         ],
         "psr-4": {
             "App\\": "app/",

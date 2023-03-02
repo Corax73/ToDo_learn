@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 use Faker\Generator as Faker;
 
 class NewsController extends Controller
@@ -98,12 +97,11 @@ class NewsController extends Controller
         if ($request -> image) {
 
             $validatedData = $request -> validate( [
-                'name' => 'required|unique:news|max:255',
+                'name' => 'required|max:255',
                 'body' => 'required',
                 'image' => 'required'
             ], 
             [
-                'name.unique' => 'Name is not unique',
                 'name.required' => 'Name is required',
                 'body.required' => 'Body is required',
                 'image.required' => 'Image is required'
@@ -117,16 +115,14 @@ class NewsController extends Controller
         } else {
             
             $validatedData = $request -> validate( [
-                'name' => 'required|unique:news|max:255',
+                'name' => 'required|max:255',
                 'body' => 'required'
             ], 
             [
-                'name.unique' => 'Name is not unique',
                 'name.required' => 'Name is required',
                 'body.required' => 'Body is required'
             ]
-        );
-        }
+        );}
 
         $news -> update($validatedData);
         
@@ -141,18 +137,21 @@ class NewsController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        switch ($request->input('action')) {
+        switch ($request -> input('action')) {
             case 'delete':
-                $NewsId = News::find($id);
-                $filenameForDel = $NewsId->image;
-                Storage::delete('/public/' . $filenameForDel);
-                Storage::delete('/public/mini/' . 'mini' . $filenameForDel);
-                $NewsId -> delete();
+
+                $news = News::find($id);
+                
+                image_and_mini_destroy($news);
+
                 break;
+
             case 'download':
-                $NewsId = News::find($id);
-                $filenameForDown = $NewsId -> image;
-                return Storage::download('/public/' . $filenameForDown);
+                
+                $news = News::find($id);
+
+                return image_download($news);
+
                 break;
         }
 
