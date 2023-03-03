@@ -14,7 +14,6 @@ if (! function_exists('image_and_mini_destroy')) {
         $filenameForDel = $news->image;
         Storage::delete('/public/' . $filenameForDel);
         Storage::delete('/public/mini/' . 'mini' . $filenameForDel);
-        $news -> delete();
 
     }
 }

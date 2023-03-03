@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Faker\Generator as Faker;
 
 class NewsController extends Controller
@@ -108,7 +107,7 @@ class NewsController extends Controller
             ]
         );
             
-            $filename = image_update_and_mini ($news, $validatedData, $faker);
+            $filename = image_update_and_mini($news, $validatedData, $faker);
             
             $validatedData['image'] = $filename;
 
@@ -143,6 +142,8 @@ class NewsController extends Controller
                 $news = News::find($id);
                 
                 image_and_mini_destroy($news);
+
+                $news -> delete();
 
                 break;
 
