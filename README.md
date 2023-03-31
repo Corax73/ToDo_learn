@@ -6,7 +6,18 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
-
+<p>
+После развертывания laravel ставим аутентификацию "из коробки".
+composer require laravel/ui
+и 
+php artisan ui vue
+На главной страничке laravel изменения не вносились. На дашборде добавлена ссылка на маршрут со страничкой задания "Tasks".
+Создана таблица и модель task(s). В таблице колонка user_id связана с id таблицы users. В task id пользователя вносится из Auth.
+Создан контроллер TaskController.
+В нем методы добавления, удаления и вывода заданий каждого зарегистрированного пользователя. Выборка по id из Auth.
+Роуты прописаны в web.
+В task.blade шаблон странички задания.
+</p>
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

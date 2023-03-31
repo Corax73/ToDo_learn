@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Task;
 
 class User extends Authenticatable
 {
@@ -41,4 +43,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+//accessor
+    protected function getNameEmailAttribute()
+    {
+        return "{$this->name} {$this->email}";
+    }
+
+    protected function getNameUpAttribute()
+    {
+        return strtoupper($this->name);
+    }
+
+    public function index()
+    {
+        return $this -> hasMany(Task::class, 'user_id', 'id');
+    }
+
 }
